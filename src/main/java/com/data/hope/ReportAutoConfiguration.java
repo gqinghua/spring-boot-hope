@@ -30,6 +30,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +45,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * 自动装配核心类配合resource下的配置文集
@@ -96,7 +98,7 @@ public class ReportAutoConfiguration {
      */
     @Configuration
     @ConditionalOnClass({WebMvcConfigurer.class})
-    @ComponentScan(value = {"com.sg.nr.curd.controller", "com.sg.nr.exception.advice"})
+    @ComponentScan(value = {"com.data.hope.curd.controller", "com.data.hope.exception.advice"})
     public static class WebReportAutoConfiguration {
         public WebReportAutoConfiguration() {
         }
@@ -330,5 +332,15 @@ public class ReportAutoConfiguration {
     }
 
     private class DefaultRulesListener implements RuleListener {
+    }
+
+
+    /**
+     * 时区配置
+     */
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization()
+    {
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(TimeZone.getDefault());
     }
 }

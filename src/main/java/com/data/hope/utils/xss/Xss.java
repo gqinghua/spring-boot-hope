@@ -1,4 +1,4 @@
-package com.data.hope.xss;
+package com.data.hope.utils.xss;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
